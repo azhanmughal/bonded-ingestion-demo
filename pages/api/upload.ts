@@ -3,6 +3,7 @@ import type { IncomingMessage } from 'http'
 import { IncomingForm, Files, File as FormidableFile } from 'formidable'
 import fs from 'fs'
 import FormData from 'form-data'
+import axios from 'axios'
 
 export const config = {
   api: {
@@ -49,14 +50,18 @@ export default async function handler(
       contentType: file.mimetype ?? 'application/pdf',
     })
 
-    const ingestRes = await fetch('https://bonded-ingestion-backend-production.up.railway.app/ingest', {
-      method: 'POST',
-      body: formData as unknown as BodyInit,
-      headers: formData.getHeaders() as HeadersInit,
-    })
+    const ingestRes = await axios.post(
+        'https://bonded-ingestion-backend-production.up.railway.app/ingest',
+        formData,
+        {
+            headers: formData.getHeaders(),
+        }   
+    )
 
-    const data = await ingestRes.json()
+
+    const data = ingestRes.data
     return res.status(ingestRes.status).json(data)
+    
   } catch (err) {
     return res.status(500).json({
       detail: (err instanceof Error ? err.message : 'Unknown error'),
