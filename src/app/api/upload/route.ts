@@ -12,8 +12,14 @@
 //     })
 //   })
 
+// src/app/api/upload/route.ts
 export async function POST() {
-    return new Response("Hello from /api/upload", { status: 200 });
+  return new Response(JSON.stringify({ message: '✅ Upload route is working!' }), {
+    headers: { 'Content-Type': 'application/json' },
+    status: 200,
+  });
+}
+
 //   const reqTyped = req as unknown as IncomingMessage
 
 //   try {
@@ -41,4 +47,4 @@ export async function POST() {
 //   } catch (err) {
 //     return new Response(JSON.stringify({ detail: (err as Error).message }), { status: 500 })
 //   }
-}
+// }
