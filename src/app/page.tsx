@@ -32,10 +32,11 @@ export default function Home() {
       <input
         type="file"
         onChange={(e) => {
-          console.log("File selected", e.target.files?.[0])
-          setFile(e.target.files?.[0] || null)
+          const selected = (e.target.files?.[0] as File) ?? null;
+          console.log("File selected", selected);
+          setFile(selected);
         }}
-        className="mb-4" 
+        className="mb-4"
       />
       <button
         onClick={handleUpload}
