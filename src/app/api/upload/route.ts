@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       contentType: file.mimetype || 'application/pdf',
     })
 
-    const ingestRes = await fetch('https://your-fastapi-api.onrender.com/ingest', {
+    const ingestRes = await fetch('https://bonded-ingestion-backend-production.up.railway.app/ingest', {
       method: 'POST',
       body: formData as unknown as BodyInit,
       headers: formData.getHeaders() as HeadersInit,
