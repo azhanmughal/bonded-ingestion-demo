@@ -1,3 +1,5 @@
+export const runtime = 'nodejs'
+
 import { IncomingForm, Files } from 'formidable'
 import type { IncomingMessage } from 'http'
 import fs from 'fs'
