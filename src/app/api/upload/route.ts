@@ -3,12 +3,6 @@ import type { IncomingMessage } from 'http'
 import fs from 'fs'
 import FormData from 'form-data'
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
-
 const parseForm = (req: IncomingMessage): Promise<{ files: Files }> =>
   new Promise((resolve, reject) => {
     const form = new IncomingForm({ uploadDir: '/tmp', keepExtensions: true })
