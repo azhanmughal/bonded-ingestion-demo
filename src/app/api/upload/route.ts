@@ -1,0 +1,49 @@
+import { IncomingForm, Files } from 'formidable'
+import type { IncomingMessage } from 'http'
+import fs from 'fs'
+import FormData from 'form-data'
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}
+
+const parseForm = (req: IncomingMessage): Promise<{ files: Files }> =>
+  new Promise((resolve, reject) => {
+    const form = new IncomingForm({ uploadDir: '/tmp', keepExtensions: true })
+    form.parse(req, (_err, _fields, files) => {
+      if (_err) reject(_err)
+      else resolve({ files })
+    })
+  })
+
+export async function POST(req: Request) {
+  const reqTyped = req as unknown as IncomingMessage
+
+  try {
+    const { files } = await parseForm(reqTyped)
+    const file = files.file?.[0]
+    if (!file) {
+      return new Response(JSON.stringify({ detail: 'No file provided' }), { status: 400 })
+    }
+
+    const stream = fs.createReadStream(file.filepath)
+    const formData = new FormData()
+    formData.append('file', stream, {
+      filename: file.originalFilename || 'upload.pdf',
+      contentType: file.mimetype || 'application/pdf',
+    })
+
+    const ingestRes = await fetch('https://your-fastapi-api.onrender.com/ingest', {
+      method: 'POST',
+      body: formData as unknown as BodyInit,
+      headers: formData.getHeaders() as HeadersInit,
+    })
+
+    const data = await ingestRes.json()
+    return new Response(JSON.stringify(data), { status: ingestRes.status })
+  } catch (err) {
+    return new Response(JSON.stringify({ detail: (err as Error).message }), { status: 500 })
+  }
+}

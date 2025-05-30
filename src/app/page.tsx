@@ -6,6 +6,7 @@ export default function Home() {
   const [status, setStatus] = useState<string | null>(null)
 
   const handleUpload = async () => {
+    console.log('Upload button clicked')
     if (!file) return
     setStatus('Uploading...')
 
@@ -30,8 +31,11 @@ export default function Home() {
       <h1 className="text-2xl mb-4">🦷 Bonded Ingestion Demo</h1>
       <input
         type="file"
-        onChange={(e) => setFile(e.target.files?.[0] || null)}
-        className="mb-4"
+        onChange={(e) => {
+          console.log("File selected", e.target.files?.[0])
+          setFile(e.target.files?.[0] || null)
+        }}
+        className="mb-4" 
       />
       <button
         onClick={handleUpload}
