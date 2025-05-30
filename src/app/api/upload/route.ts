@@ -1,18 +1,18 @@
-import { IncomingForm, Files } from 'formidable'
-import type { IncomingMessage } from 'http'
-import fs from 'fs'
-import FormData from 'form-data'
+// import { IncomingForm, Files } from 'formidable'
+// import type { IncomingMessage } from 'http'
+// import fs from 'fs'
+// import FormData from 'form-data'
 
-const parseForm = (req: IncomingMessage): Promise<{ files: Files }> =>
-  new Promise((resolve, reject) => {
-    const form = new IncomingForm({ uploadDir: '/tmp', keepExtensions: true })
-    form.parse(req, (_err, _fields, files) => {
-      if (_err) reject(_err)
-      else resolve({ files })
-    })
-  })
+// const parseForm = (req: IncomingMessage): Promise<{ files: Files }> =>
+//   new Promise((resolve, reject) => {
+//     const form = new IncomingForm({ uploadDir: '/tmp', keepExtensions: true })
+//     form.parse(req, (_err, _fields, files) => {
+//       if (_err) reject(_err)
+//       else resolve({ files })
+//     })
+//   })
 
-export async function POST(_req: Request) {
+export async function POST() {
     return new Response("Hello from /api/upload", { status: 200 });
 //   const reqTyped = req as unknown as IncomingMessage
 
