@@ -1,7 +1,8 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    appDir: true,
+    serverActions: true, // optional, but modern
+    appDir: true,        // this line is what matters
   },
 };
 
